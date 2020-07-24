@@ -1,0 +1,31 @@
+{
+    "manifest_version": 2,
+    "name": "Soft Board",
+    "version": "0.1",
+    "description": "Pin user links just like note on soft borad.",
+    "icons": {
+        "16": "icon16.png",
+        "48": "icon48.png",
+        "128": "icon128.png"
+    },
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "softBoard@zindex.com",
+            "strict_min_version": "42.0"
+        }
+    },
+    "browser_action": {},
+    "background": {
+        "scripts": [
+            "eventPage.js"
+        ]
+    },
+    "permissions": [
+        "storage",
+        "tabs"
+    ],
+    "options_ui": {
+        "page": "options.html",
+        "browser_style": true
+    }
+}
