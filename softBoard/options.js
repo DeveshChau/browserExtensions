@@ -1,5 +1,5 @@
 let pinsArray = [];
-browser.storage.sync.get(['total', 'urlArray'], function (urls) {
+chrome.storage.sync.get(['total', 'urlArray'], function (urls) {
     pinsArray = [...urls.urlArray];
     for(let i = 0; i < pinsArray.length; i++){
         
