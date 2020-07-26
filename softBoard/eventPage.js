@@ -1,28 +1,45 @@
+function getObjectLength(pins) {
+    return pins.total === 0;
+}
+
+function setUrlTitle(pins) {
+    chrome.storage.sync.set({
+        'total': pins.total,
+        'urlArray': pins.urlArray
+    });
+}
+
+function getUrlTitle() {
+    chrome.storage.sync.get(['total', 'urlArray'], function (pins) {
+        setUrlTitle(pins);
+        setBadge(pins.total)
+    })
+}
+
+function setBadge(badgeTotle) {
+    chrome.browserAction.setBadgeText({ "text": badgeTotle.toString() });
+}
+
+setUrlTitle({ 'total': 120, 'urlArray': [] });
+setBadge(120);
 chrome.browserAction.onClicked.addListener(function () {
-    let tabURL = '';
     let tabTitle = '';
+    let tabURL = '';
     chrome.tabs.query({
         active: true,
         currentWindow: true
     }, function (tabs) {
-        tabURL = tabs[0].url;
         tabTitle = tabs[0].title;
+        tabURL = tabs[0].url;
     });
-    chrome.storage.sync.get(['total', 'urlArray'], function (pins) {
-        if (Object.keys(pins).length === 0) {
-            chrome.storage.sync.set({
-                'total': 1,
-                'urlArray': [{ 'title': tabTitle, 'url': tabURL }]
-            });
-            chrome.browserAction.setBadgeText({ "text": "1" });
+    chrome.storage.sync.get(['total', 'urlArray'], function (pins) {        
+        if (getObjectLength(pins)) {
+            console.log('limit end');            
         } else {
-            pins.total = parseInt(pins.total) + 1;
+            pins.total = pins.total - 1;
             pins.urlArray.push({ 'title': tabTitle, 'url': tabURL });
-            chrome.storage.sync.set({
-                'total': pins.total,
-                'urlArray': pins.urlArray
-            });
-            chrome.browserAction.setBadgeText({ "text": pins.total.toString() });
+            setUrlTitle(pins);
+            setBadge(pins.total);
         }
-    })    
-})
+    })
+});
