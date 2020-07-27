@@ -55,10 +55,10 @@ document.getElementById('reset').onclick = function () {
         'total': 2,
         'urlArray': []
     });
+    document.getElementById('container').remove();
     chrome.browserAction.setBadgeText({ "text": '2' });
     chrome.browserAction.setBadgeBackgroundColor({color: "blue"});
-    chrome.browserAction.setTitle('Soft Board');
-    document.getElementById('container').remove();
+    chrome.browserAction.setTitle({title: 'Soft Board'});
 };
 
 setSoftBoard();
