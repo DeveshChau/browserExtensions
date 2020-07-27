@@ -1,6 +1,14 @@
 let pinsArray = [];
 function setSoftBoard() {
     chrome.storage.sync.get(['total', 'urlArray'], function (urls) {
+        if (urls.total === 0) {
+            let message = document.createElement('div');
+            const node = document.createTextNode('No more pins available');
+            message.appendChild(node);
+            element = document.getElementById('container')
+            child = document.getElementById("pins");
+            element.insertBefore(message, child);
+        }
         pinsArray = [...urls.urlArray];
         for (let i = 0; i < pinsArray.length; i++) {
 
@@ -44,11 +52,13 @@ function setSoftBoard() {
 
 document.getElementById('reset').onclick = function () {
     chrome.storage.sync.set({
-        'total': 120,
+        'total': 2,
         'urlArray': []
     });
-    chrome.browserAction.setBadgeText({ "text": '120' });
-    document.getElementById('container').remove()
+    chrome.browserAction.setBadgeText({ "text": '2' });
+    chrome.browserAction.setBadgeBackgroundColor({color: "blue"});
+    chrome.browserAction.setTitle('Soft Board');
+    document.getElementById('container').remove();
 };
 
 setSoftBoard();

@@ -21,11 +21,11 @@ function setBadge(badgeTotle) {
 }
 
 function urlNotPresent(pins, tabURL) {
-    return !pins.urlArray.find(obj => obj.url === tabURL )
+    return !pins.urlArray.find(obj => obj.url === tabURL)
 }
 
-setUrlTitle({ 'total': 120, 'urlArray': [] });
-setBadge(120);
+setUrlTitle({ 'total': 2, 'urlArray': [] });
+setBadge(2);
 chrome.browserAction.onClicked.addListener(function () {
 
     let tabTitle = '';
@@ -39,6 +39,8 @@ chrome.browserAction.onClicked.addListener(function () {
     });
     chrome.storage.sync.get(['total', 'urlArray'], function (pins) {
         if (getObjectLength(pins)) {
+            chrome.browserAction.setBadgeBackgroundColor({ color: [255, 0, 0, 255] });
+            chrome.browserAction.setTitle({title: 'No More Pins'});
             console.log('limit end');
         } else if (urlNotPresent(pins, tabURL)) {
             pins.total = pins.total - 1;
